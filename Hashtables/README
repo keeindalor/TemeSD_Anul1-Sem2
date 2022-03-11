@@ -1,0 +1,33 @@
+IONUT CRISTIAN SAVU, 312CB, TEMA 1
+README: Tema 1- SD
+
+liste.h:
+-contine structurile pentru lista dubla si elementele de tip TAddress
+-sunt definite functiile din fisierul "liste.c", adica de inserare si de eliminare din lista, precum si de distrugere de lista
+
+liste.c:
+-functia Insert:
+	-insereaza ordonat in lista dublu inlantuita dupa mai multe situatii
+	-se opreste in momentul in care gaseste un element deja inserat in lista
+-functia Remove:
+	-cauta elementul in lista si il elimina
+-functia DistrL
+	-elibereaza spatiul efectiv din lista
+
+hash.h:
+-contine structura pentru tabela hash, precum si antetele functiilor de initializare si distrugere tabela hash, care se regasesc in hash.c
+
+tema1.c
+-in acest fisier de cod, am implementat cele 6 functii specifice acestei teme
+precum si functii de comparare de elemente, care fac conversia acestora la tipul
+de date, dar si functia de hashing, care calculeaza suma literelor unui cuvant,
+si returneaza restul impartirii acesteia la dimensiunea tabelei hash
+-functia put insereaza in tabela hash ordonat, prin intermediul functii Insert
+-functia get parcurge lista hashului cheii respective, si returneaza valoarea
+value a acesteia daca exista
+-functia remove elimina elementul cautat din lista, folosind functia Remove
+-functia find parcurge lista codului de hash respectiv cheii si returneaza true
+daca exista sau false daca nu
+-functia print afiseaza in fisier valoarea value a cheilor din fiecare bucket
+al tabelei hash
+-functia print_bucket afiseaza in fisier lista specifica unui bucket din tabela hash

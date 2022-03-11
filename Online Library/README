@@ -1,0 +1,82 @@
+Ionut Cristian Savu, 312CB, TEMA 3 - README
+
+As dori sa incep cu un mic feedback:
+-Tema foarte interesanta, a fost relativ usoara
+-Din cate am citit si m-am documentat, chiar pe asta se bazeaza algoritmul de autocomplete de la Google
+-P.S. Andrei ar trebui sa isi gaseasca alte hobby-uri in afara de programare
+
+book.h
+-in acest header, am definit structura TCarte, cu campurile char * titlu, char * nume, int numar pagini si int rating
+-de asemenea, am scris prototipurile functiilor definite in book.c, dar si 3 macro-uri legate de dimensiunile maxime admise temei
+
+book.c
+-in acest fisier, am definit trei functii, una de calculare index, una de creare o
+ structura de tip TCarte, precum si o functie de eliberare memorie
+-FreeCarte elibereaza memoria alocata campurilor de tip char *, iar la final,
+ elibereaza memoria alocata intregii structuri
+-ConstrCarte aloca si creeaza un element de tip TCarte, folosind un string pe care 
+il citim din fisier, si il delimitam cu strtok
+-CalcIndex calculeaza indexul, mai exact, pozitia unei litere in alfabetul 
+dat pentru aceasta tema. mai exact,
+litera a ocupa pozitia 0, iau " " ocupa pozitia 67, si m-am folosit de codul ascii pentru a-l calcula, facand aritmetica
+intre pozitiile lor in tabela ascii
+
+trie.h
+-aici am declarat structura trie, in care avem un pointer catre o structura 
+de nod de trie, un camp care marcheaza sfarsitul unui cuvant in arbore
+si un camp info, de tip void, in care stocam cartea pentru arborele de tip 
+T1, si un arbore de tip T1 pentru arborele T2
+-am scris prototipurile pentru functiile trie
+
+trie.c
+-functia Constr aloca spatiul pentru un nod de arbore Trie, si seteaza 
+campurile catre NULL sau 0, facand o parcurgere vectoriala de arbore pentru toti 
+cei 67 de fii 
+-functia EsteFrunza verifica daca nodul este frunza sau nu, comparand 
+rezultatul functiei cu 0 sau 1, 1 daca e adevarat, 0 daca e fals
+-functia EsteGol, care verifica daca arborele e gol
+-functiile de inserare InserareT1 si InserareT2, care cu ajutoul unor arbori 
+temporari si auxiliari, parcurgem arborele initial pe baza pozitiilor
+literelor din alfabet si a titlului respectiv numelui de autor, la 
+finalul carora inseram fie Cartea pentru T1, fie un arbore T1 pentru T2, folosindu-ne 
+de functia InserareT1
+-functiile Gaseste, care cauta o cheie in arbore si returneaza adresa ultimului nod din 
+trie in care ne aflam, si Cauta, care returneaza 1 sau 0 in cazul in care o cheie exista
+in trie sau nu.
+-functia de afisare, care este o functie recursiva care se foloseste de un string gol in care 
+construim, folosindu-ne de legaturile trie-ului, in mod recursiv, cuvantul/cuvintele cautate,
+folosindu-ne pe aritmetica caracterelor folosindu-ne de pozitia lor in ascii.
+-functia de stergere, care este valabila pentru orice trie, deoarece elimina legaturile intre noduri
+in mod recursiv, in mare parte, dezalocand si setand campul de sfarsit pe 0
+-functiile de distrugere, pe care le folosim pentru a dezaloca memoria alocata unui T1 si unui T2
+
+utils.h
+-am definit prototipurile functiilor folosite in utils.c 
+
+utils.c 
+-functia AddBook, care insereaza titlul si cartea in T1, iar in cazul in care aceasta
+a fost anterior adaugata, nu va mai fi adaugat autorul in T2 si cartea + titlul in T1-le asociat lui T2
+-in functia SearchBook, cautam cartea prin functia Cautare, iar daca exista,
+voi parcurge arborele trie, pentru a ajunge la final de arbore, si voi extrage de acolo informatiile cartii, din
+campul info 
+-functia ListAuthor verifica daca autorul este prezent in T2, iar daca da, parcurg pana cand ajung la final de arbore
+iar de acolo, folosesc un arbore temporar prin care, cu ajutorul functiei de afisare in trie, afisez toate cartiile scrise
+de acel autor din T1-le asociat arborelui de autori
+-functia completeaza nume, care e functie recursiva care extrage un string legat de numele autorului din campul info al arborelui T1
+-functiile AutocompleteAutor/titlu, sunt ambele recursive, functioneaza la fel ca si cea de completare nume, doar ca avem un contor care
+ne scoate din functie in momentul in care s-au afisat 3 titluri/cartii
+-functia ListAuthorAC, care verifica existenta prefixului, iar in acest caz, verifica si daca prefixul == numele autorului (am gasit asta intr-un test)
+iar apoi, facand o parcurgere in intreg arborele de la acea celula pe care ne aflam, folosim functia AutocompleteAutor pe toti copiii arborelui 
+-functia SearchBookAC, care cauta titlul in T1,iar apoi pe toti fiii, apelam functia de AutocompleteTitlu
+-functia SearchAuthor, care parcurge arborele T2 folosind arbore temporar, dupa care parcurgem arborele T1 din campul info al acestuia,
+iar in momentul in care ne aflam in final de T1, afisam informatiile despre carte stocate in campul info
+-functia SearchAuthorAC, verifica existenta prefixului autorului,dupa care parcurgem T2-ul, dupa care aplicam functia de SearchBookAC pe arborele T1 din campul info
+al arborelui T2
+-functia de DeleteBook, in care stergem o carte data din arborii Trie. Incepem in T1, verificam daca titlul exista, iar daca da, parcurgem T1-le pana cand ajungem la final
+La final, memoram intr-o variabila numele autorului, dupa care aplicam functia de FreeCarte pe cartea din T1 (ceea ce nu va mai fi necesar sa o facem si pentru cartea din
+arborele T1 din campul de info din T2, deoarece cand am construit cartea, am legat un pointer catre adresa memoriei), dupa care, cu ajutorul unui temp2
+parcurgem T2-ul pentru a ajunge la final de T2, si pentru a putea sterge cheia titlului din T1-le asociat lui T2, pe care il notez cu temp3
+daca din temp3 a fost eliminata cheia titlului, eliminam cheia autorului din T2, dupa care eliminam cheia titlului din T1
+
+tema3.c 
+-in acest fisier, am deschis fisierele de intrare si iesire, si comparand primul cuvant de pe fiecare linie, am apelat functiile respective descrise mai sus.
